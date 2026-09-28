@@ -67,6 +67,11 @@ class AuditLog:
         last = entries[-1]
         return last.this_hash, last.sequence
 
+
+    # Canonical form: sorted keys, no whitespace. This is deterministic for
+    # our own writer but not a formally specified canonical form. If you need
+    # cross-implementation verification, pin to RFC 8785 (JCS).
+
     @staticmethod
     def _compute_hash(entry_dict: dict) -> str:
         """Deterministic SHA-256 over the entry contents (excluding this_hash)."""

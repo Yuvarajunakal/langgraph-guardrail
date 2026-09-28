@@ -186,6 +186,20 @@ pip install -e ".[dev]"
 pytest tests/ -v
 ```
 
+## Limitations
+
+- **Tamper-evidence, not truth.** The hash chain proves the log hasn't been
+  edited since it was written. It does not prove the log entries describe
+  what actually happened — the same process that acts also writes the entry.
+  For attestation (proof of *what occurred*, not just *what was logged*),
+  you'd want a separate witness layer.
+- **Canonical form.** Hash computation uses `json.dumps(sort_keys=True,
+  separators=(",", ":"))`. This is deterministic within this library, but
+  it is not a formally specified canonical form like RFC 8785 (JCS). Cross-
+  implementation verification would require adopting a standard.
+- **Single writer.** The chain is safe for one writer appending in sequence.
+  Concurrent writers need external locking.
+
 ## Status
 
 **Alpha** — the core API is stable, but expect additions. See [CHANGELOG.md](CHANGELOG.md) for what's shipped.
